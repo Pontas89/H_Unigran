@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Jogos — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><h1 class="text-balance text-3xl font-black tracking-tight md:text-4xl">Jogos</h1><p class="mt-1 text-pretty font-semibold leading-relaxed text-muted-foreground">Aprender também é jogar. Cada partida vale XP para o ranking da sua turma.</p></div>
+
+  {# Só o administrador vê os botões de cadastro dos jogos #}
+  {% if user.is_staff %}
+    <div class="flex flex-wrap gap-2">
+      <a href="{% url 'game:pergunta-list' %}"
+         class="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-border bg-card px-4 py-2.5 text-xs font-black uppercase tracking-wide text-foreground btn-3d-muted hover:bg-muted">
+        <i data-lucide="settings" class="size-4" aria-hidden="true"></i> Perguntas do quiz
+      </a>
+      <a href="{% url 'game:afirmacao-list' %}"
+         class="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-border bg-card px-4 py-2.5 text-xs font-black uppercase tracking-wide text-foreground btn-3d-muted hover:bg-muted">
+        <i data-lucide="settings" class="size-4" aria-hidden="true"></i> Verdadeiro ou falso
+      </a>
+    </div>
+  {% endif %}
+</div><ul class="grid gap-4 md:grid-cols-2"><li><a href="{% url 'game:quiz-relampago' %}" class="group flex h-full items-start gap-5 rounded-3xl bg-card p-6 card-3d transition-colors hover:border-primary/60">
+      <span class="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground btn-3d transition-transform group-hover:-rotate-6"><i data-lucide="zap" class="size-8" aria-hidden="true" stroke-width=2.4></i></span>
+      <span class="flex flex-col gap-2"><span class="text-xs font-black uppercase tracking-widest text-muted-foreground">Todas as matérias</span>
+      <span class="text-2xl font-black leading-tight">Quiz relâmpago</span><span class="text-pretty font-semibold leading-relaxed text-muted-foreground">Uma questão de cada matéria. Perfeito para manter a ofensiva.</span>
+      <span class="w-fit rounded-full bg-accent px-3 py-1 text-xs font-black uppercase text-accent-foreground">até 95 XP</span></span></a></li><li><a href="{% url 'game:jogo-verdadeiro-falso' %}" class="group flex h-full items-start gap-5 rounded-3xl bg-card p-6 card-3d transition-colors hover:border-primary/60">
+      <span class="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground btn-3d transition-transform group-hover:-rotate-6"><i data-lucide="timer" class="size-8" aria-hidden="true" stroke-width=2.4></i></span>
+      <span class="flex flex-col gap-2"><span class="text-xs font-black uppercase tracking-widest text-muted-foreground">Contra o tempo</span>
+      <span class="text-2xl font-black leading-tight">Verdadeiro ou falso</span><span class="text-pretty font-semibold leading-relaxed text-muted-foreground">60 segundos para julgar o máximo de afirmações. Combos valem bônus.</span>
+      <span class="w-fit rounded-full bg-accent px-3 py-1 text-xs font-black uppercase text-accent-foreground">5 XP por acerto</span></span></a></li><li><a href="{% url 'game:jogo-memoria' %}" class="group flex h-full items-start gap-5 rounded-3xl bg-card p-6 card-3d transition-colors hover:border-primary/60">
+      <span class="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground btn-3d transition-transform group-hover:-rotate-6"><i data-lucide="brain" class="size-8" aria-hidden="true" stroke-width=2.4></i></span>
+      <span class="flex flex-col gap-2"><span class="text-xs font-black uppercase tracking-widest text-muted-foreground">Ciências e Linguagens</span>
+      <span class="text-2xl font-black leading-tight">Memória de conceitos</span><span class="text-pretty font-semibold leading-relaxed text-muted-foreground">Vire as cartas e ligue cada termo à sua definição.</span>
+      <span class="w-fit rounded-full bg-accent px-3 py-1 text-xs font-black uppercase text-accent-foreground">até 60 XP</span></span></a></li><li><a href="{% url 'game:jogo-linha-do-tempo' %}" class="group flex h-full items-start gap-5 rounded-3xl bg-card p-6 card-3d transition-colors hover:border-primary/60">
+      <span class="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground btn-3d transition-transform group-hover:-rotate-6"><i data-lucide="list-ordered" class="size-8" aria-hidden="true" stroke-width=2.4></i></span>
+      <span class="flex flex-col gap-2"><span class="text-xs font-black uppercase tracking-widest text-muted-foreground">História</span>
+      <span class="text-2xl font-black leading-tight">Linha do tempo</span><span class="text-pretty font-semibold leading-relaxed text-muted-foreground">Coloque os fatos da História do Brasil na ordem certa.</span>
+      <span class="w-fit rounded-full bg-accent px-3 py-1 text-xs font-black uppercase text-accent-foreground">40 XP</span></span></a></li></ul>
+{% endblock %}

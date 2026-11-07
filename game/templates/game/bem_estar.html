@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bem-estar — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><h1 class="text-balance text-3xl font-black tracking-tight md:text-4xl">Bem-estar</h1><p class="mt-1 text-pretty font-semibold leading-relaxed text-muted-foreground">Sua saúde mental vem antes de qualquer prova. Aqui você encontra apoio, de verdade.</p></div></div>
+  <section class="mb-6 flex flex-col gap-4 rounded-3xl bg-primary p-6 text-primary-foreground md:flex-row md:items-center md:justify-between">
+    <div><p class="text-sm font-black uppercase tracking-widest opacity-90">Precisa conversar agora?</p>
+      <h2 class="mt-1 text-balance text-3xl font-black leading-tight">Ligue 188 — CVV, 24 horas, de graça</h2>
+      <p class="mt-1 text-pretty font-bold leading-relaxed opacity-95">Atendimento sigiloso por voluntários treinados. Você não precisa estar em crise para ligar.</p></div>
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <a href="tel:188" class="flex items-center justify-center gap-2 rounded-2xl bg-card px-6 py-4 text-lg font-black uppercase text-foreground btn-3d-muted"><i data-lucide="phone" class="size-5" aria-hidden="true"></i> Ligar 188</a>
+      <a href="https://cvv.org.br" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 rounded-2xl border-2 border-primary-foreground/50 px-6 py-4 font-black uppercase hover:bg-primary-foreground/10">Chat CVV <i data-lucide="external-link" class="size-4" aria-hidden="true"></i></a>
+    </div>
+  </section>
+  <div class="grid gap-6 lg:grid-cols-3">
+    <div class="flex flex-col gap-6 lg:col-span-2">
+      <section class="rounded-3xl bg-card p-5 card-3d"><h2 class="text-lg font-black tracking-tight">Fale com alguém da escola</h2><ul class="mt-4 grid gap-3 md:grid-cols-3"><li class="flex flex-col gap-2 rounded-2xl border-2 border-border p-4"><p class="font-black leading-tight">Profa. Camila Rocha</p>
+      <p class="text-sm font-bold text-primary">Professora conselheira do 2º B</p><p class="flex items-start gap-2 text-sm font-semibold text-muted-foreground"><i data-lucide="clock" class="mt-0.5 size-4 shrink-0" aria-hidden="true"></i> Seg e qua, 12h–13h</p>
+      <a href="mailto:camila.rocha@monteirolobato.edu.br" class="mt-auto flex items-center gap-2 break-all text-sm font-black text-primary hover:underline"><i data-lucide="mail" class="size-4 shrink-0" aria-hidden="true"></i> Enviar e-mail</a></li><li class="flex flex-col gap-2 rounded-2xl border-2 border-border p-4"><p class="font-black leading-tight">Dra. Fernanda Lopes</p>
+      <p class="text-sm font-bold text-primary">Psicóloga escolar</p><p class="flex items-start gap-2 text-sm font-semibold text-muted-foreground"><i data-lucide="clock" class="mt-0.5 size-4 shrink-0" aria-hidden="true"></i> Seg a sex, 8h–16h — Sala 3</p>
+      <a href="mailto:psicologia@monteirolobato.edu.br" class="mt-auto flex items-center gap-2 break-all text-sm font-black text-primary hover:underline"><i data-lucide="mail" class="size-4 shrink-0" aria-hidden="true"></i> Enviar e-mail</a></li><li class="flex flex-col gap-2 rounded-2xl border-2 border-border p-4"><p class="font-black leading-tight">Prof. Daniel Freitas</p>
+      <p class="text-sm font-bold text-primary">Orientação educacional</p><p class="flex items-start gap-2 text-sm font-semibold text-muted-foreground"><i data-lucide="clock" class="mt-0.5 size-4 shrink-0" aria-hidden="true"></i> Ter e qui, 10h–12h</p>
+      <a href="mailto:orientacao@monteirolobato.edu.br" class="mt-auto flex items-center gap-2 break-all text-sm font-black text-primary hover:underline"><i data-lucide="mail" class="size-4 shrink-0" aria-hidden="true"></i> Enviar e-mail</a></li></ul></section>
+      <section class="rounded-3xl bg-card p-5 card-3d"><h2 class="text-lg font-black tracking-tight">Canais de ajuda</h2><ul class="mt-4 flex flex-col gap-3"><li class="flex items-center gap-4 rounded-2xl border-2 border-border p-4">
+      <span class="flex min-w-16 items-center justify-center rounded-xl bg-accent px-2 py-2 text-center text-lg font-black text-accent-foreground">188</span>
+      <div class="flex-1"><p class="font-black leading-tight">CVV — Centro de Valorização da Vida</p><p class="text-pretty text-sm font-semibold leading-relaxed text-muted-foreground">Apoio emocional e prevenção do suicídio, 24h, gratuito e sigiloso. Também por chat em cvv.org.br.</p></div>
+      <a href="tel:188" class="shrink-0 rounded-xl p-3 text-primary hover:bg-accent" aria-label="Ligar para CVV — Centro de Valorização da Vida"><i data-lucide="phone" class="size-5" aria-hidden="true"></i></a></li><li class="flex items-center gap-4 rounded-2xl border-2 border-border p-4">
+      <span class="flex min-w-16 items-center justify-center rounded-xl bg-accent px-2 py-2 text-center text-lg font-black text-accent-foreground">192</span>
+      <div class="flex-1"><p class="font-black leading-tight">SAMU</p><p class="text-pretty text-sm font-semibold leading-relaxed text-muted-foreground">Emergências médicas, inclusive crises de saúde mental.</p></div>
+      <a href="tel:192" class="shrink-0 rounded-xl p-3 text-primary hover:bg-accent" aria-label="Ligar para SAMU"><i data-lucide="phone" class="size-5" aria-hidden="true"></i></a></li><li class="flex items-center gap-4 rounded-2xl border-2 border-border p-4">
+      <span class="flex min-w-16 items-center justify-center rounded-xl bg-accent px-2 py-2 text-center text-lg font-black text-accent-foreground">100</span>
+      <div class="flex-1"><p class="font-black leading-tight">Disque 100</p><p class="text-pretty text-sm font-semibold leading-relaxed text-muted-foreground">Denúncias de violações de direitos humanos, incluindo violência contra crianças e adolescentes.</p></div>
+      <a href="tel:100" class="shrink-0 rounded-xl p-3 text-primary hover:bg-accent" aria-label="Ligar para Disque 100"><i data-lucide="phone" class="size-5" aria-hidden="true"></i></a></li><li class="flex items-center gap-4 rounded-2xl border-2 border-border p-4">
+      <span class="flex min-w-16 items-center justify-center rounded-xl bg-accent px-2 py-2 text-center text-lg font-black text-accent-foreground">Presencial</span>
+      <div class="flex-1"><p class="font-black leading-tight">CAPS da sua cidade</p><p class="text-pretty text-sm font-semibold leading-relaxed text-muted-foreground">Centro de Atenção Psicossocial do SUS: atendimento gratuito, sem precisar de encaminhamento.</p></div>
+      <a href="https://www.gov.br/saude/pt-br/composicao/saes/desmad/raps/caps" target="_blank" rel="noopener noreferrer" class="shrink-0 rounded-xl p-3 text-primary hover:bg-accent" aria-label="Saiba mais sobre CAPS da sua cidade"><i data-lucide="external-link" class="size-5" aria-hidden="true"></i></a></li></ul></section>
+    </div>
+    <div class="flex flex-col gap-6">
+      <section class="rounded-3xl bg-card p-5 card-3d flex flex-col items-center gap-4 text-center">
+        <h2 class="flex items-center gap-2 self-start text-lg font-black tracking-tight"><i data-lucide="wind" class="size-5 text-primary" aria-hidden="true"></i> Respiração guiada</h2>
+        <div class="flex size-52 items-center justify-center">
+          <div id="circulo" class="flex size-48 items-center justify-center rounded-full bg-accent transition-transform ease-in-out" style="transform:scale(0.7);transition-duration:4s">
+            <div class="flex size-28 flex-col items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <span id="respiracao-texto" class="text-lg font-black" aria-live="polite">Pronto?</span>
+              <span id="respiracao-contador" class="text-2xl font-black tabular-nums"></span>
+            </div>
+          </div>
+        </div>
+        <p class="text-sm font-semibold text-muted-foreground">Ajuda a acalmar antes de provas.</p>
+        <button type="button" id="respiracao-botao" class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105 w-full">Começar</button>
+      </section>
+      <section class="rounded-3xl bg-card p-5 card-3d"><h2 class="text-lg font-black tracking-tight">Lembretes gentis</h2>
+        <ul class="mt-3 flex flex-col gap-2 text-sm font-semibold leading-relaxed text-muted-foreground">
+          <li>Nota não define quem você é.</li><li>Dormir bem ajuda a memória mais do que virar a noite.</li>
+          <li>Pausas de 5 minutos a cada 25 de estudo fazem diferença.</li><li>Pedir ajuda é sinal de coragem.</li></ul></section>
+    </div>
+  </div>
+{% endblock %}

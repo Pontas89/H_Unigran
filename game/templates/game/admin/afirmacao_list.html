@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   ADMIN · VERDADEIRO OU FALSO
+   =====================================================================
+{% endcomment %}
+
+{% block title %}Verdadeiro ou falso — Estudaí{% endblock %}
+
+{% block content %}
+{% url 'game:afirmacao-create' as url_novo %}
+{% include "game/admin/_cabecalho.html" with titulo="Verdadeiro ou falso" texto="Frases do jogo de 60 segundos." url_novo=url_novo rotulo_novo="Nova afirmação" %}
+
+<section class="rounded-3xl bg-card p-5 card-3d">
+  <ul class="flex flex-col gap-1">
+    {% for afirmacao in afirmacoes %}
+      <li class="flex flex-wrap items-center gap-3 rounded-2xl px-2 py-3 hover:bg-muted">
+        {# Selo: verdadeira (laranja) ou falsa (vermelho) #}
+        {% if afirmacao.verdadeira %}
+          <span class="rounded-full bg-primary px-2 py-0.5 text-[11px] font-black uppercase text-primary-foreground">Verdadeira</span>
+        {% else %}
+          <span class="rounded-full bg-destructive px-2 py-0.5 text-[11px] font-black uppercase text-primary-foreground">Falsa</span>
+        {% endif %}
+
+        <span class="flex-1 font-bold">{{ afirmacao.frase }}</span>
+        <span class="text-xs font-black uppercase text-muted-foreground">{{ afirmacao.materia|default:"Geral" }}</span>
+
+        <a href="{% url 'game:afirmacao-update' afirmacao.pk %}" class="text-xs font-black uppercase tracking-wide text-primary hover:underline">Editar</a>
+        <a href="{% url 'game:afirmacao-delete' afirmacao.pk %}" class="text-xs font-black uppercase tracking-wide text-destructive hover:underline">Excluir</a>
+      </li>
+    {% empty %}
+      <li class="font-semibold text-muted-foreground">Nenhuma afirmação cadastrada.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

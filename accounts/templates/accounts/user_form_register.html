@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta — Estudaí</title>
+    <link rel="icon" href="{% static 'game/img/icon.svg' %}">
+    {# Visual da pasta escola_futuro (cadastro.css) + complementos do Django #}
+    <link rel="stylesheet" href="{% static 'accounts/css/cadastro.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/acesso_extra.css' %}">
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+
+        <a href="{% url 'home' %}" class="logo">estudaí</a>
+        <h1>Criar Minha Conta</h1>
+
+        {% include "accounts/_campos.html" with mostrar_ajuda=True %}
+
+        <div class="butões">
+            <input type="submit" id="sub" value="Criar Conta">
+            <input type="reset" id="res" value="Limpar">
+        </div>
+
+        <p class="trocar-tela">Já tem conta? <a href="{% url 'accounts:login' %}">Entrar</a></p>
+    </form>
+</body>
+</html>

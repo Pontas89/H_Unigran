@@ -1,0 +1,78 @@
+/* =====================================================================
+   COMPLEMENTOS das telas de acesso (entrar e cadastro)
+   O visual base vem de entrar.css / cadastro.css (pasta escola_futuro).
+   Aqui só entra o que o Django precisa a mais: lista de turma,
+   mensagens de erro, textos de ajuda e o link entre as telas.
+   ===================================================================== */
+
+/* Logo "estudaí" no topo do cartão */
+.logo {
+    text-align: center;
+    color: #FF8517;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+
+/* Lista de opções (turma) com o mesmo estilo dos campos de texto */
+select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    border: 2px solid #FFAF68;
+    background-color: #FFFDF9;
+    color: #2E2E2E;
+    border-radius: 14px;
+    outline: none;
+}
+
+select:focus {
+    border-color: #FF8517;
+    box-shadow: 0 0 0 3px rgba(255, 133, 23, 0.2);
+}
+
+/* Campo com erro: borda vermelha */
+.grupo-campo.com-erro input,
+.grupo-campo.com-erro select {
+    border-color: #D93025;
+}
+
+/* Mensagens de erro (do campo ou gerais) */
+.erro {
+    font-size: 13px;
+    font-weight: 600;
+    color: #D93025;
+}
+
+.alerta-erro {
+    background-color: #FDECEA;
+    border: 2px solid #D93025;
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #D93025;
+}
+
+/* Texto de ajuda abaixo do campo (ex.: regras de senha) */
+.ajuda {
+    font-size: 12px;
+    color: #8A5A3A;
+}
+
+.ajuda ul {
+    padding-left: 18px;
+}
+
+/* Link "Não tem conta? Cadastre-se" */
+.trocar-tela {
+    text-align: center;
+    font-size: 14px;
+    color: #2E2E2E;
+}
+
+.trocar-tela a {
+    color: #FF8517;
+    font-weight: 700;
+}

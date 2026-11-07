@@ -1,0 +1,126 @@
+/* Configurações Globais e Tipografia */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Fundo da tela em bege claro suave (da paleta do sistema) */
+body {
+    background-color: #FFEEDA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Cartão do formulário centralizado */
+form {
+    background-color: #FFFFFF;
+    padding: 30px 24px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    border: 2px solid #FBAC68; /* Borda suave em tom alaranjado */
+    box-shadow: 0 6px 16px rgba(161, 66, 6, 0.12); /* Sombra suave */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Título em destaque */
+h1 {
+    text-align: center;
+    color: #2E2E2E; /* Texto principal em cinza bem escuro */
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Organização de rótulo + campo de texto */
+.grupo-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #A14206; /* Tom castanho para destaque dos rótulos */
+}
+
+/* Campos de entrada (Inputs) */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: 2px solid #FFAF68; /* Borda nos tons de laranja claro */
+    background-color: #FFFDF9;
+    color: #2E2E2E;
+    border-radius: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* Efeito ao clicar no campo para digitar */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #FF8517; /* Laranja em destaque ao focar */
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(255, 133, 23, 0.2);
+}
+
+/* Container de botões */
+.butões {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+/* Estilo geral dos botões */
+input[type="submit"],
+input[type="reset"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 16px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Botão Principal ENTRAR (Laranja gamificado com efeito 3D) */
+input[type="submit"] {
+    background-color: #FF8517; /* Laranja vibrante principal */
+    color: #FFFFFF;
+    box-shadow: 0 4px 0 #A14206; /* Efeito de relevo/sombra em tom escuro */
+}
+
+input[type="submit"]:hover {
+    background-color: #F97D14;
+}
+
+input[type="submit"]:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #A14206;
+}
+
+/* Botão Secundário LIMPAR */
+input[type="reset"] {
+    background-color: transparent;
+    color: #A14206;
+    border: 2px solid #FFAF68;
+}
+
+input[type="reset"]:hover {
+    background-color: #FFEEDA;
+    border-color: #FF8517;
+}

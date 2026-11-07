@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lição — Estudaí{% endblock %}
+
+{% block layout %}
+<main class="flex min-h-dvh flex-col">
+  <!-- Tela do quiz -->
+  <div id="tela-quiz" {% if url_concluir %}data-url-concluir="{{ url_concluir }}"{% endif %} class="flex min-h-dvh flex-col">
+    <header class="mx-auto flex w-full max-w-3xl items-center gap-4 px-4 pt-6">
+      <a href="{{ url_sair }}" id="link-sair" class="rounded-full p-1 text-muted-foreground hover:bg-muted" aria-label="Sair da lição"><i data-lucide="x" class="size-7" aria-hidden="true"></i></a>
+      <div class="h-4 w-full overflow-hidden rounded-full bg-muted"><div id="barra-progresso" class="relative h-full rounded-full bg-primary transition-[width] duration-500" style="width:4%"><span class="absolute inset-x-2 top-1 h-1 rounded-full bg-primary-foreground/30"></span></div></div>
+      <span class="flex items-center gap-1 font-black text-destructive"><i data-lucide="heart" class="size-6" aria-hidden="true" fill="currentColor"></i><span id="vidas" class="tabular-nums">5</span><span class="sr-only">vidas</span></span>
+    </header>
+    <section class="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-4 py-10">
+      <div>
+        <p id="titulo-licao" class="text-sm font-black uppercase tracking-widest text-primary"></p>
+        <h1 id="pergunta" class="mt-2 text-balance text-2xl font-black leading-snug md:text-3xl"></h1>
+      </div>
+      <div id="alternativas" class="grid gap-3"></div>
+    </section>
+    <footer id="rodape" class="border-t-2 border-border px-4 py-6">
+      <div class="mx-auto flex w-full max-w-3xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div id="feedback" class="flex items-start gap-3" role="status">
+          <p class="hidden items-center gap-2 text-sm font-bold text-muted-foreground sm:flex"><i data-lucide="sparkles" class="size-4 text-primary" aria-hidden="true"></i> Escolha uma alternativa e clique em verificar</p>
+        </div>
+        <button type="button" id="botao-verificar" disabled class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105 w-full shrink-0 sm:w-44">Verificar</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Tela final -->
+  <div id="tela-final" hidden class="flex min-h-dvh flex-col items-center justify-center gap-6 px-6 text-center">
+    <div class="relative size-56 overflow-hidden rounded-full bg-mascot"><img src="{% static 'game/img/fagulha-celebrando.png' %}" alt="Fagulha comemorando" class="size-full object-cover"></div>
+    <h1 class="text-balance text-4xl font-black text-primary">Lição concluída!</h1>
+    <div class="grid w-full max-w-sm grid-cols-2 gap-3">
+      <div class="flex flex-col items-center gap-1 rounded-2xl border-2 border-primary p-4"><span class="text-xs font-black uppercase text-primary">Total de XP</span>
+        <span class="flex items-center gap-1 text-2xl font-black"><i data-lucide="zap" class="size-5 text-primary" aria-hidden="true" fill="currentColor"></i> <span id="xp-ganho">0</span></span></div>
+      <div class="flex flex-col items-center gap-1 rounded-2xl border-2 border-border p-4"><span class="text-xs font-black uppercase text-muted-foreground">Precisão</span>
+        <span class="flex items-center gap-1 text-2xl font-black"><i data-lucide="target" class="size-5 text-primary" aria-hidden="true"></i> <span id="precisao">0%</span></span></div>
+    </div>
+    <a href="{% url 'game:inicio' %}" class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105 w-full max-w-sm">Continuar</a>
+  </div>
+</main>
+
+{# Perguntas cadastradas pelo admin, lidas pelo app.js (parte 10) #}
+{{ dados_licao|json_script:"dados-licao" }}
+{% endblock %}

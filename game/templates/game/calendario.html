@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   CALENDÁRIO
+   A view manda:
+     meses    = 3 meses [{id, nome, dias: [{data, do_mes, hoje, eventos}]}]
+     detalhes = um painel por dia com evento (+ hoje): {data, hoje, eventos, aulas}
+   Clicar num dia e trocar de mês: app.js, parte 8.
+   O admin pode adicionar, editar e excluir compromissos.
+   =====================================================================
+{% endcomment %}
+
+{% block title %}Calendário — Estudaí{% endblock %}
+
+{% block content %}
+
+{# ---------- Cabeçalho ---------- #}
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <h1 class="text-balance text-3xl font-black tracking-tight md:text-4xl">Calendário</h1>
+    <p class="mt-1 text-pretty font-semibold leading-relaxed text-muted-foreground">
+      Aulas, provas, simulados e entregas do semestre em um só lugar.
+    </p>
+  </div>
+
+  {% if user.is_staff %}
+    <a href="{% url 'game:evento-create' %}"
+       class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors bg-primary text-primary-foreground btn-3d hover:brightness-105">
+      <i data-lucide="plus" class="size-4" aria-hidden="true"></i> Adicionar à agenda
+    </a>
+  {% endif %}
+</div>
+
+{# ---------- Progresso do semestre e do bimestre ---------- #}
+<div class="mb-6 grid gap-4 sm:grid-cols-2">
+  <section class="flex flex-col gap-3 rounded-3xl bg-card p-5 card-3d">
+    <div class="flex items-baseline justify-between">
+      <h2 class="text-lg font-black tracking-tight">2º semestre</h2>
+      <span class="text-sm font-black tabular-nums text-muted-foreground">73%</span>
+    </div>
+    <div class="h-4 w-full overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do semestre">
+      <div class="relative h-full rounded-full bg-primary" style="width:73%"><span class="absolute inset-x-2 top-1 h-1 rounded-full bg-primary-foreground/30"></span></div>
+    </div>
+  </section>
+  <section class="flex flex-col gap-3 rounded-3xl bg-card p-5 card-3d">
+    <div class="flex items-baseline justify-between">
+      <h2 class="text-lg font-black tracking-tight">4º bimestre</h2>
+      <span class="text-sm font-black text-muted-foreground">até 15 de dez</span>
+    </div>
+    <div class="h-4 w-full overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do bimestre">
+      <div class="relative h-full rounded-full bg-primary" style="width:50%"><span class="absolute inset-x-2 top-1 h-1 rounded-full bg-primary-foreground/30"></span></div>
+    </div>
+  </section>
+</div>
+
+<div class="grid gap-6 lg:grid-cols-5">
+
+  {# =========================== GRADE DO MÊS =========================== #}
+  <section class="rounded-3xl bg-card p-5 card-3d lg:col-span-3">
+    <div class="mb-4 flex items-center justify-between">
+      <h2 id="mes-titulo" class="text-xl font-black capitalize">{{ meses.0.nome }}</h2>
+      <div class="flex gap-2">
+        <button type="button" id="mes-anterior" class="rounded-xl border-2 border-border p-2 btn-3d-muted hover:bg-muted" aria-label="Mês anterior">
+          <i data-lucide="chevron-left" class="size-5" aria-hidden="true"></i>
+        </button>
+        <button type="button" id="mes-proximo" class="rounded-xl border-2 border-border p-2 btn-3d-muted hover:bg-muted" aria-label="Próximo mês">
+          <i data-lucide="chevron-right" class="size-5" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    {% for mes in meses %}
+      <div data-mes="{{ mes.id }}" data-nome="{{ mes.nome }}" class="grid grid-cols-7 gap-1 text-center" {% if not forloop.first %}hidden{% endif %}>
+
+        {# Dias da semana #}
+        <span class="pb-2 text-xs font-black uppercase text-muted-foreground">Dom</span>
+        <span class="pb-2 text-xs font-black uppercase text-muted-foreground">Seg</span>
+        <span class="pb-2 text-xs font-black uppercase text-muted-foreground">Ter</span>
+        <span class="pb-2 text-xs font-black uppercase text-muted-foreground">Qua</span>
+        <span class="pb-2 text-xs font-black uppercase text-muted-foreground">Qui</span>
+        <span class="pb-2 text-xs font-black uppercase text-muted-foreground">Sex</span>
+        <span class="pb-2 text-xs font-black uppercase text-muted-foreground">Sáb</span>
+
+        {# Dias: fora do mês ficam vazios; hoje fica destacado; bolinhas = eventos #}
+        {% for dia in mes.dias %}
+          {% if not dia.do_mes %}
+            <span></span>
+          {% else %}
+            <button type="button" data-dia="{{ dia.data|date:'Y-m-d' }}"
+                    class="dia flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border-2 text-sm font-extrabold transition-colors
+                           {% if dia.hoje %}border-primary bg-accent text-accent-foreground{% else %}border-transparent hover:bg-muted{% endif %}">
+              {% if dia.hoje %}
+                <span class="flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground">{{ dia.data.day }}</span>
+              {% else %}
+                <span>{{ dia.data.day }}</span>
+              {% endif %}
+              <span class="flex h-1.5 gap-0.5">
+                {% for evento in dia.eventos|slice:":3" %}
+                  <span class="size-1.5 rounded-full {{ evento.cor_ponto }}"></span>
+                {% endfor %}
+              </span>
+            </button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    {# Legenda das cores #}
+    <ul class="mt-4 flex flex-wrap gap-3 border-t-2 border-border pt-4" aria-label="Legenda">
+      <li class="flex items-center gap-1.5 text-xs font-bold text-muted-foreground"><span class="size-2.5 rounded-full bg-primary"></span> Prova</li>
+      <li class="flex items-center gap-1.5 text-xs font-bold text-muted-foreground"><span class="size-2.5 rounded-full bg-accent-foreground"></span> Simulado</li>
+      <li class="flex items-center gap-1.5 text-xs font-bold text-muted-foreground"><span class="size-2.5 rounded-full bg-foreground"></span> Entrega</li>
+      <li class="flex items-center gap-1.5 text-xs font-bold text-muted-foreground"><span class="size-2.5 rounded-full bg-muted-foreground"></span> Evento</li>
+      <li class="flex items-center gap-1.5 text-xs font-bold text-muted-foreground"><span class="size-2.5 rounded-full bg-border-strong"></span> Feriado</li>
+    </ul>
+  </section>
+
+  {# =========================== DETALHES DO DIA =========================== #}
+  <div class="flex flex-col gap-6 lg:col-span-2">
+    <section class="rounded-3xl bg-card p-5 card-3d" aria-live="polite">
+
+      {% for detalhe in detalhes %}
+        {# Começa mostrando o dia de hoje; os outros aparecem ao clicar no dia #}
+        <div data-detalhe="{{ detalhe.data|date:'Y-m-d' }}" {% if not detalhe.hoje %}hidden{% endif %}>
+          <h2 class="text-lg font-black capitalize tracking-tight">
+            {% if detalhe.hoje %}Hoje{% else %}{{ detalhe.data|date:"l, j \d\e F" }}{% endif %}
+          </h2>
+
+          {# Compromissos do dia #}
+          <ul class="mt-4 flex flex-col gap-3">
+            {% for evento in detalhe.eventos %}
+              <li class="rounded-2xl border-2 border-border p-3">
+                <span class="rounded-full px-2 py-0.5 text-[11px] font-black uppercase {{ evento.cor_selo }}">{{ evento.get_tipo_display }}</span>
+                <p class="mt-2 font-extrabold">{{ evento.titulo }}</p>
+                {% if evento.descricao %}
+                  <p class="text-sm font-semibold text-muted-foreground">{{ evento.descricao }}</p>
+                {% endif %}
+
+                <div class="mt-2 flex flex-wrap items-center gap-4">
+                  {% if evento.tipo != 'feriado' %}
+                    <button type="button"
+                            data-fagulha="Crie um plano de revisão e um mini simulado para: {{ evento.titulo }}{% if evento.descricao %} — {{ evento.descricao }}{% endif %}."
+                            class="flex items-center gap-1.5 text-sm font-black text-primary hover:underline">
+                      <i data-lucide="sparkles" class="size-4" aria-hidden="true"></i> Revisar com a Fagulha
+                    </button>
+                  {% endif %}
+                  {% if user.is_staff %}
+                    <a href="{% url 'game:evento-update' evento.pk %}" class="text-xs font-black uppercase tracking-wide text-primary hover:underline">Editar</a>
+                    <a href="{% url 'game:evento-delete' evento.pk %}" class="text-xs font-black uppercase tracking-wide text-destructive hover:underline">Excluir</a>
+                  {% endif %}
+                </div>
+              </li>
+            {% empty %}
+              <li class="font-semibold text-muted-foreground">Nenhum compromisso neste dia.</li>
+            {% endfor %}
+          </ul>
+
+          {% if user.is_staff %}
+            <a href="{% url 'game:evento-create' %}?data={{ detalhe.data|date:'Y-m-d' }}"
+               class="mt-3 flex w-fit items-center gap-1.5 text-sm font-black text-primary hover:underline">
+              <i data-lucide="plus" class="size-4" aria-hidden="true"></i> Adicionar neste dia
+            </a>
+          {% endif %}
+
+          {# Aulas do dia da semana #}
+          <h3 class="mt-5 text-sm font-black uppercase tracking-wide text-muted-foreground">Aulas</h3>
+          {% if detalhe.aulas %}
+            <ol class="mt-2 flex flex-col gap-1.5">
+              {% for aula in detalhe.aulas %}
+                <li class="flex items-center gap-3 text-sm">
+                  <span class="w-12 font-black tabular-nums text-muted-foreground">{{ aula.hora }}</span>
+                  <span class="flex-1 font-extrabold">{{ aula.materia }}</span>
+                  <span class="font-semibold text-muted-foreground">{{ aula.sala }}</span>
+                </li>
+              {% endfor %}
+            </ol>
+          {% else %}
+            <p class="mt-2 font-semibold text-muted-foreground">Sem aulas neste dia.</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      {# Painel para dias sem nenhum compromisso (o título é preenchido pelo app.js) #}
+      <div data-detalhe="vazio" hidden>
+        <h2 id="vazio-titulo" class="text-lg font-black capitalize tracking-tight"></h2>
+        <p class="mt-4 font-semibold text-muted-foreground">Nenhum compromisso neste dia.</p>
+        {% if user.is_staff %}
+          <a id="vazio-adicionar" data-base="{% url 'game:evento-create' %}" href="{% url 'game:evento-create' %}"
+             class="mt-3 flex w-fit items-center gap-1.5 text-sm font-black text-primary hover:underline">
+            <i data-lucide="plus" class="size-4" aria-hidden="true"></i> Adicionar neste dia
+          </a>
+        {% endif %}
+      </div>
+
+    </section>
+  </div>
+</div>
+{% endblock %}

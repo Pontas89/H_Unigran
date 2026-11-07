@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% comment %} =====================================================================
+   RANKING (tudo calculado a partir dos registros de XP no banco)
+   Abas: Liga da semana | XP total | Turmas   (troca de aba: app.js, parte 6)
+   =====================================================================
+{% endcomment %}
+
+{% block title %}Ranking — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <h1 class="text-balance text-3xl font-black tracking-tight md:text-4xl">Ranking</h1>
+    <p class="mt-1 text-pretty font-semibold leading-relaxed text-muted-foreground">
+      Liga Âmbar · termina domingo às 23h59. Top 3 sobem de liga!
+    </p>
+  </div>
+</div>
+
+{# ---------- Abas ---------- #}
+<div role="tablist" class="abas mb-6 flex gap-2 overflow-x-auto">
+  <button type="button" data-aba="semana" class="aba shrink-0 rounded-2xl border-2 px-4 py-2 text-sm font-black uppercase tracking-wide border-primary bg-accent text-accent-foreground">Liga da semana</button>
+  <button type="button" data-aba="geral" class="aba shrink-0 rounded-2xl border-2 px-4 py-2 text-sm font-black uppercase tracking-wide border-border text-muted-foreground hover:bg-muted">XP total</button>
+  <button type="button" data-aba="turmas" class="aba shrink-0 rounded-2xl border-2 px-4 py-2 text-sm font-black uppercase tracking-wide border-border text-muted-foreground hover:bg-muted">Turmas</button>
+</div>
+
+{# ---------- Aba 1: liga da semana (XP desde segunda-feira) ---------- #}
+<div data-conteudo="semana">
+  {% include "game/_ranking_lista.html" with podio=podio_semana linhas=semana zonas=True %}
+</div>
+
+{# ---------- Aba 2: XP de todos os tempos ---------- #}
+<div data-conteudo="geral" hidden>
+  {% include "game/_ranking_lista.html" with podio=podio_total linhas=total zonas=False %}
+</div>
+
+{# ---------- Aba 3: turmas (soma do XP dos alunos de cada turma) ---------- #}
+<div data-conteudo="turmas" hidden>
+  <section class="rounded-3xl bg-card p-5 card-3d">
+    <ol class="flex flex-col gap-2">
+      {% for turma in turmas %}
+        <li class="flex flex-col gap-2 rounded-2xl px-3 py-3 {% if turma.turma == minha_turma %}bg-accent text-accent-foreground{% endif %}">
+          <div class="flex items-center gap-3">
+            <span class="w-6 text-center text-lg font-black text-primary">{{ turma.posicao }}</span>
+            <span class="flex-1 font-extrabold">{{ turma.turma }}{% if turma.turma == minha_turma %} (sua turma){% endif %}</span>
+            <span class="font-black tabular-nums">{{ turma.xp|intcomma }} XP</span>
+          </div>
+          <div class="ml-9 h-2.5 overflow-hidden rounded-full bg-muted">
+            <div class="h-full rounded-full bg-primary" style="width:{{ turma.largura|stringformat:'s' }}%"></div>
+          </div>
+        </li>
+      {% empty %}
+        <li class="font-semibold text-muted-foreground">Nenhuma turma com alunos ainda.</li>
+      {% endfor %}
+    </ol>
+  </section>
+</div>
+{% endblock %}

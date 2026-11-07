@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Linha do tempo — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mx-auto flex max-w-2xl flex-col gap-6">
+    <a href="{% url 'game:jogo-list' %}" class="flex w-fit items-center gap-2 text-sm font-black uppercase tracking-wide text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="size-4" aria-hidden="true"></i> Jogos</a>
+    <h1 class="text-balance text-3xl font-black tracking-tight">Linha do tempo</h1>
+    
+    <div class="flex flex-col gap-5">
+      <p class="text-pretty font-semibold leading-relaxed text-muted-foreground">Use as setas para ordenar do mais antigo (topo) para o mais recente.</p>
+      <ol id="linha-lista" class="flex flex-col gap-3"><li data-ano="1889" class="item-linha flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3 transition-colors">
+        <span class="flex-1 font-extrabold">Proclamação da República <span class="ano ml-2 hidden text-sm font-black text-muted-foreground">1889</span></span>
+        <span class="flex flex-col">
+          <button type="button" class="subir rounded-lg p-1 hover:bg-muted" aria-label="Mover para cima"><i data-lucide="chevron-up" class="size-5" aria-hidden="true"></i></button>
+          <button type="button" class="descer rounded-lg p-1 hover:bg-muted" aria-label="Mover para baixo"><i data-lucide="chevron-down" class="size-5" aria-hidden="true"></i></button>
+        </span></li><li data-ano="1500" class="item-linha flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3 transition-colors">
+        <span class="flex-1 font-extrabold">Chegada dos portugueses <span class="ano ml-2 hidden text-sm font-black text-muted-foreground">1500</span></span>
+        <span class="flex flex-col">
+          <button type="button" class="subir rounded-lg p-1 hover:bg-muted" aria-label="Mover para cima"><i data-lucide="chevron-up" class="size-5" aria-hidden="true"></i></button>
+          <button type="button" class="descer rounded-lg p-1 hover:bg-muted" aria-label="Mover para baixo"><i data-lucide="chevron-down" class="size-5" aria-hidden="true"></i></button>
+        </span></li><li data-ano="1988" class="item-linha flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3 transition-colors">
+        <span class="flex-1 font-extrabold">Constituição Cidadã <span class="ano ml-2 hidden text-sm font-black text-muted-foreground">1988</span></span>
+        <span class="flex flex-col">
+          <button type="button" class="subir rounded-lg p-1 hover:bg-muted" aria-label="Mover para cima"><i data-lucide="chevron-up" class="size-5" aria-hidden="true"></i></button>
+          <button type="button" class="descer rounded-lg p-1 hover:bg-muted" aria-label="Mover para baixo"><i data-lucide="chevron-down" class="size-5" aria-hidden="true"></i></button>
+        </span></li><li data-ano="1822" class="item-linha flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3 transition-colors">
+        <span class="flex-1 font-extrabold">Independência do Brasil <span class="ano ml-2 hidden text-sm font-black text-muted-foreground">1822</span></span>
+        <span class="flex flex-col">
+          <button type="button" class="subir rounded-lg p-1 hover:bg-muted" aria-label="Mover para cima"><i data-lucide="chevron-up" class="size-5" aria-hidden="true"></i></button>
+          <button type="button" class="descer rounded-lg p-1 hover:bg-muted" aria-label="Mover para baixo"><i data-lucide="chevron-down" class="size-5" aria-hidden="true"></i></button>
+        </span></li><li data-ano="1937" class="item-linha flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3 transition-colors">
+        <span class="flex-1 font-extrabold">Início do Estado Novo <span class="ano ml-2 hidden text-sm font-black text-muted-foreground">1937</span></span>
+        <span class="flex flex-col">
+          <button type="button" class="subir rounded-lg p-1 hover:bg-muted" aria-label="Mover para cima"><i data-lucide="chevron-up" class="size-5" aria-hidden="true"></i></button>
+          <button type="button" class="descer rounded-lg p-1 hover:bg-muted" aria-label="Mover para baixo"><i data-lucide="chevron-down" class="size-5" aria-hidden="true"></i></button>
+        </span></li><li data-ano="1888" class="item-linha flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3 transition-colors">
+        <span class="flex-1 font-extrabold">Abolição da escravidão <span class="ano ml-2 hidden text-sm font-black text-muted-foreground">1888</span></span>
+        <span class="flex flex-col">
+          <button type="button" class="subir rounded-lg p-1 hover:bg-muted" aria-label="Mover para cima"><i data-lucide="chevron-up" class="size-5" aria-hidden="true"></i></button>
+          <button type="button" class="descer rounded-lg p-1 hover:bg-muted" aria-label="Mover para baixo"><i data-lucide="chevron-down" class="size-5" aria-hidden="true"></i></button>
+        </span></li></ol>
+      <button type="button" id="linha-verificar" class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105">Verificar</button>
+      <p id="linha-resultado" class="text-center font-bold" role="status"></p>
+    </div>
+  </div>
+{% endblock %}

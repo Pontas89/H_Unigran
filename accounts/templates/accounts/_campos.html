@@ -1,0 +1,37 @@
+{% comment %}
+  Campos do formulário (login ou cadastro) no visual da pasta escola_futuro.
+  Cada campo vira: rótulo + campo + ajuda + erros.
+{% endcomment %}
+
+{% if form.non_field_errors %}
+  <div class="alerta-erro" role="alert">{{ form.non_field_errors|join:" " }}</div>
+{% endif %}
+
+{% for field in form %}
+  <div class="grupo-campo {% if field.errors %}com-erro{% endif %}">
+    <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+
+    {% if field.field.widget.input_type == 'select' %}
+      {# Lista de opções (ex.: turma) #}
+      <select name="{{ field.html_name }}" id="{{ field.id_for_label }}">
+        {% for valor, nome in field.field.choices %}
+          <option value="{{ valor }}" {% if valor|stringformat:"s" == field.value|stringformat:"s" %}selected{% endif %}>{{ nome }}</option>
+        {% endfor %}
+      </select>
+    {% else %}
+      {# Texto, e-mail ou senha (a senha nunca volta preenchida) #}
+      <input type="{{ field.field.widget.input_type }}"
+             name="{{ field.html_name }}"
+             id="{{ field.id_for_label }}"
+             value="{% if field.field.widget.input_type != 'password' %}{{ field.value|default_if_none:'' }}{% endif %}"
+             {% if field.field.required %}required{% endif %}>
+    {% endif %}
+
+    {% if field.help_text and mostrar_ajuda %}
+      <div class="ajuda">{{ field.help_text|safe }}</div>
+    {% endif %}
+    {% for error in field.errors %}
+      <p class="erro">{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endfor %}

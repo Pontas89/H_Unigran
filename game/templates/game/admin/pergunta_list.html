@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   ADMIN · QUIZ
+   Perguntas usadas nas lições da trilha e no Quiz relâmpago.
+   =====================================================================
+{% endcomment %}
+
+{% block title %}Perguntas do quiz — Estudaí{% endblock %}
+
+{% block content %}
+{% url 'game:pergunta-create' as url_novo %}
+{% include "game/admin/_cabecalho.html" with titulo="Perguntas do quiz" texto="Usadas nas lições de cada matéria e no Quiz relâmpago." url_novo=url_novo rotulo_novo="Nova pergunta" %}
+
+<ul class="grid gap-4 md:grid-cols-2">
+  {% for pergunta in perguntas %}
+    <li class="flex flex-col gap-3 rounded-3xl bg-card p-5 card-3d">
+      <p class="text-xs font-black uppercase tracking-widest text-primary">{{ pergunta.materia|default:"Sem matéria" }}</p>
+      <h2 class="font-black leading-snug">{{ pergunta.pergunta }}</h2>
+
+      {# Alternativas: a certa aparece destacada #}
+      <ol class="flex flex-col gap-1.5">
+        {% for resposta in pergunta.resposta_set.all %}
+          <li class="rounded-xl px-3 py-1.5 text-sm font-bold {% if resposta.tipo == 'certa' %}bg-accent text-accent-foreground{% else %}bg-muted text-muted-foreground{% endif %}">
+            {% if resposta.tipo == 'certa' %}✓ {% endif %}{{ resposta.resposta_correta }}
+          </li>
+        {% endfor %}
+      </ol>
+
+      <div class="mt-auto flex gap-4 pt-2">
+        <a href="{% url 'game:pergunta-update' pergunta.pk %}" class="text-xs font-black uppercase tracking-wide text-primary hover:underline">Editar</a>
+        <a href="{% url 'game:pergunta-delete' pergunta.pk %}" class="text-xs font-black uppercase tracking-wide text-destructive hover:underline">Excluir</a>
+      </div>
+    </li>
+  {% empty %}
+    <li class="font-semibold text-muted-foreground">Nenhuma pergunta cadastrada.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

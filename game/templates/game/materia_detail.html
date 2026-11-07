@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   TRILHA DE UMA MATÉRIA
+   A view manda: materia e unidades = [{unidade, licoes: [{licao, status, deslocamento}]}]
+   status: concluida (✓) | atual (estrela, "Começar") | bloqueada (cadeado)
+   =====================================================================
+{% endcomment %}
+
+{% block title %}{{ materia.nome }} — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mx-auto flex max-w-2xl flex-col gap-8">
+
+  <a href="{% url 'game:materia-list' %}"
+     class="flex w-fit items-center gap-2 text-sm font-black uppercase tracking-wide text-muted-foreground hover:text-foreground">
+    <i data-lucide="arrow-left" class="size-4" aria-hidden="true"></i> Matérias
+  </a>
+
+  {% for item in unidades %}
+    <section class="flex flex-col gap-8">
+
+      {# ---------- Cabeçalho da unidade ---------- #}
+      <header class="flex items-center justify-between gap-4 rounded-3xl bg-primary px-5 py-4 text-primary-foreground btn-3d">
+        <div class="flex items-center gap-3">
+          <i data-lucide="{{ materia.icone }}" class="size-8 shrink-0" aria-hidden="true" stroke-width="2.4"></i>
+          <div>
+            <p class="text-xs font-black uppercase tracking-widest opacity-90">
+              <span class="hidden sm:inline">{{ materia.nome }} · </span>Unidade {{ forloop.counter }}
+            </p>
+            <h2 class="text-xl font-black leading-tight">{{ item.unidade.titulo }}</h2>
+          </div>
+        </div>
+        <button type="button"
+                data-fagulha="Me explique a unidade &quot;{{ item.unidade.titulo }}&quot; de {{ materia.nome }} com um resumo e exemplos."
+                class="flex items-center gap-2 rounded-xl border-2 border-primary-foreground/40 px-3 py-2 text-xs font-black uppercase hover:bg-primary-foreground/10">
+          <i data-lucide="sparkles" class="size-4" aria-hidden="true"></i> Guia
+        </button>
+      </header>
+
+      {# ---------- Lições em zigue-zague ---------- #}
+      <ol class="flex flex-col items-center gap-5">
+        {% for passo in item.licoes %}
+          <li class="flex flex-col items-center gap-2 transition-transform {{ passo.deslocamento }}">
+
+            {% if passo.status == 'concluida' %}
+              {# Já feita: pode refazer #}
+              <a href="{% url 'game:licao' passo.licao.pk %}"
+                 class="flex size-20 items-center justify-center rounded-full bg-primary text-primary-foreground btn-3d"
+                 aria-label="{{ passo.licao.nome }} (concluída)">
+                <i data-lucide="check" class="size-9" aria-hidden="true" stroke-width="3.5"></i>
+              </a>
+              <span class="text-sm font-extrabold text-foreground">{{ passo.licao.nome }}</span>
+
+            {% elif passo.status == 'atual' %}
+              {# A próxima a fazer #}
+              <span class="animate-bob rounded-xl border-2 border-border bg-card px-3 py-1 text-xs font-black uppercase text-primary">Começar</span>
+              <a href="{% url 'game:licao' passo.licao.pk %}"
+                 class="flex size-20 items-center justify-center rounded-full bg-primary text-primary-foreground btn-3d ring-8 ring-accent"
+                 aria-label="{{ passo.licao.nome }}">
+                <i data-lucide="star" class="size-9" aria-hidden="true" fill="currentColor"></i>
+              </a>
+              <span class="text-sm font-extrabold text-foreground">{{ passo.licao.nome }}</span>
+
+            {% else %}
+              {# Bloqueada até terminar a anterior #}
+              <span class="flex size-20 items-center justify-center rounded-full bg-muted text-muted-foreground btn-3d-muted"
+                    aria-label="{{ passo.licao.nome }} (bloqueada)">
+                <i data-lucide="lock" class="size-7" aria-hidden="true"></i>
+              </span>
+              <span class="text-sm font-extrabold text-muted-foreground">{{ passo.licao.nome }}</span>
+            {% endif %}
+
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  {% empty %}
+    <p class="font-semibold text-muted-foreground">Esta matéria ainda não tem unidades cadastradas.</p>
+  {% endfor %}
+
+  <button type="button"
+          data-fagulha="Crie um simulado de 5 questões de {{ materia.nome }} com gabarito comentado."
+          class="mx-auto inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-border bg-card px-5 py-3 text-sm font-black uppercase tracking-wide text-foreground btn-3d-muted transition-colors hover:bg-muted">
+    <i data-lucide="sparkles" class="size-4" aria-hidden="true"></i> Gerar simulado com a Fagulha
+  </button>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar — Estudaí</title>
+    <link rel="icon" href="{% static 'game/img/icon.svg' %}">
+    {# Visual da pasta escola_futuro (entrar.css) + complementos do Django #}
+    <link rel="stylesheet" href="{% static 'accounts/css/entrar.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/acesso_extra.css' %}">
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+
+        <a href="{% url 'home' %}" class="logo">estudaí</a>
+        <h1>Entrar na Conta</h1>
+
+        {% include "accounts/_campos.html" %}
+
+        {# Depois de entrar, volta para a página que o aluno tentou abrir #}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+        <div class="butões">
+            <input type="submit" id="sub" value="Entrar">
+            <input type="reset" id="res" value="Limpar">
+        </div>
+
+        <p class="trocar-tela">Não tem conta? <a href="{% url 'accounts:register' %}">Cadastre-se</a></p>
+    </form>
+</body>
+</html>
