@@ -1,0 +1,67 @@
+{% load humanize %}
+{% comment %} =====================================================================
+   PÓDIO + LISTA DO RANKING (usado nas abas "Liga da semana" e "XP total")
+   Recebe: podio (2º, 1º, 3º), linhas (todos os alunos) e zonas (True/False)
+   =====================================================================
+{% endcomment %}
+<div class="grid gap-6 lg:grid-cols-5">
+
+  {# ---------- Pódio ---------- #}
+  <div class="flex items-end justify-center gap-3 lg:col-span-2 lg:items-start lg:pt-8">
+    {% for item in podio %}
+      <div class="flex w-24 flex-col items-center gap-2">
+        {% if item.posicao == 1 %}
+          <i data-lucide="crown" class="size-7 text-primary" aria-hidden="true" fill="currentColor"></i>
+        {% endif %}
+
+        <span class="flex size-14 items-center justify-center rounded-full border-4 text-lg font-black {% if item.posicao == 1 %}border-primary bg-accent text-accent-foreground{% else %}border-border bg-muted{% endif %}">
+          {{ item.iniciais }}
+        </span>
+        <span class="w-full truncate text-center text-sm font-extrabold">{{ item.primeiro_nome }}</span>
+
+        {# Altura do degrau: 1º maior, 2º médio, 3º menor #}
+        <div class="flex w-full flex-col items-center justify-start rounded-t-2xl pt-2
+                    {% if item.posicao == 1 %}h-40 bg-primary text-primary-foreground{% elif item.posicao == 2 %}h-28 bg-muted text-foreground{% else %}h-20 bg-muted text-foreground{% endif %}">
+          <span class="text-3xl font-black">{{ item.posicao }}</span>
+          <span class="text-xs font-black tabular-nums">{{ item.xp|intcomma }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {# ---------- Lista completa ---------- #}
+  <section class="rounded-3xl bg-card p-5 card-3d lg:col-span-3">
+    <ol class="flex flex-col">
+      {% for item in linhas %}
+        <li>
+          {# Linhas divisórias da liga: top 3 sobem, últimos 3 caem #}
+          {% if zonas and item.posicao == 4 %}
+            <p class="my-2 flex items-center gap-2 text-xs font-black uppercase text-primary">
+              <i data-lucide="arrow-up" class="size-4" aria-hidden="true"></i> Zona de promoção acima
+            </p>
+          {% endif %}
+          {% if zonas and item.posicao == rebaixamento and item.posicao > 4 %}
+            <p class="my-2 flex items-center gap-2 text-xs font-black uppercase text-destructive">
+              <i data-lucide="arrow-down" class="size-4" aria-hidden="true"></i> Zona de rebaixamento abaixo
+            </p>
+          {% endif %}
+
+          {# A linha do aluno logado fica destacada #}
+          <div class="flex items-center gap-3 rounded-2xl px-3 py-2.5 {% if item.aluno == user %}bg-accent text-accent-foreground{% endif %}">
+            <span class="w-6 text-center font-black tabular-nums {% if item.posicao <= 3 %}text-primary{% else %}text-muted-foreground{% endif %}">{{ item.posicao }}</span>
+            <span class="flex size-10 items-center justify-center rounded-full bg-muted text-sm font-black text-foreground">{{ item.iniciais }}</span>
+            <span class="flex-1">
+              <span class="block font-extrabold leading-tight">{{ item.nome }}{% if item.aluno == user %} (você){% endif %}</span>
+              <span class="flex items-center gap-1 text-xs font-bold text-muted-foreground">
+                {{ item.turma }} · <i data-lucide="flame" class="size-3 text-primary" aria-hidden="true" fill="currentColor"></i> {{ item.ofensiva }}
+              </span>
+            </span>
+            <span class="font-black tabular-nums">{{ item.xp|intcomma }} XP</span>
+          </div>
+        </li>
+      {% empty %}
+        <li class="font-semibold text-muted-foreground">Ainda não há alunos no ranking.</li>
+      {% endfor %}
+    </ol>
+  </section>
+</div>

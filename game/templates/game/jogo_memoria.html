@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Memória de conceitos — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mx-auto flex max-w-2xl flex-col gap-6">
+    <a href="{% url 'game:jogo-list' %}" class="flex w-fit items-center gap-2 text-sm font-black uppercase tracking-wide text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="size-4" aria-hidden="true"></i> Jogos</a>
+    <h1 class="text-balance text-3xl font-black tracking-tight">Memória de conceitos</h1>
+    
+    <section id="memoria-inicio" class="rounded-3xl bg-card p-5 card-3d flex flex-col items-center gap-4 py-10 text-center">
+      <i data-lucide="sparkles" class="size-14 text-primary" aria-hidden="true"></i>
+      <p class="max-w-sm text-pretty font-semibold leading-relaxed text-muted-foreground">Encontre os 6 pares de termo e definição com o menor número de jogadas.</p>
+      <button type="button" class="memoria-comecar inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105">Começar</button>
+    </section>
+    <div id="memoria-jogo" hidden class="flex flex-col gap-5">
+      <div class="flex items-center justify-between text-sm font-black"><span>Pares: <span id="memoria-pares">0</span>/6</span><span class="text-muted-foreground">Jogadas: <span id="memoria-jogadas">0</span></span></div>
+      <ul id="memoria-cartas" class="grid grid-cols-3 gap-3 sm:grid-cols-4"></ul>
+      <section id="memoria-fim" hidden class="rounded-3xl bg-card p-5 card-3d flex flex-col items-center gap-3 text-center" role="status">
+        <p class="text-2xl font-black text-primary">Todos os pares!</p>
+        <div class="flex gap-3"><button type="button" id="memoria-resgatar" class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105">Resgatar 60 XP</button>
+        <button type="button" class="memoria-comecar inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring border-2 border-border bg-card text-foreground btn-3d-muted hover:bg-muted">De novo</button></div>
+      </section>
+    </div>
+  </div>
+{% endblock %}

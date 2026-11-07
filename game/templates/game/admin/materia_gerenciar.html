@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   ADMIN · MATÉRIAS
+   Lista as matérias com suas unidades e lições, com botões de editar/excluir.
+   =====================================================================
+{% endcomment %}
+
+{% block title %}Gerenciar matérias — Estudaí{% endblock %}
+
+{% block content %}
+{% url 'game:materia-create' as url_novo %}
+{% include "game/admin/_cabecalho.html" with titulo="Matérias" texto="Cadastre matérias, unidades e as lições da trilha." url_novo=url_novo rotulo_novo="Nova matéria" %}
+
+<ul class="flex flex-col gap-4">
+  {% for materia in materias %}
+    <li class="rounded-3xl bg-card p-5 card-3d">
+
+      {# ---------- Matéria ---------- #}
+      <div class="flex flex-wrap items-center gap-4">
+        <span class="flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+          <i data-lucide="{{ materia.icone }}" class="size-7" aria-hidden="true"></i>
+        </span>
+        <div class="flex-1">
+          <h2 class="text-xl font-black leading-tight">{{ materia.nome }}</h2>
+          <p class="text-sm font-semibold text-muted-foreground">
+            {{ materia.professor|default:"Sem professor" }} · /{{ materia.slug }} · {{ materia.perguntas.count }} perguntas no quiz
+          </p>
+        </div>
+        <div class="flex gap-4">
+          <a href="{% url 'game:materia-update' materia.pk %}" class="text-xs font-black uppercase tracking-wide text-primary hover:underline">Editar</a>
+          <a href="{% url 'game:materia-delete' materia.pk %}" class="text-xs font-black uppercase tracking-wide text-destructive hover:underline">Excluir</a>
+        </div>
+      </div>
+
+      {# ---------- Unidades e lições ---------- #}
+      <ol class="mt-4 flex flex-col gap-2">
+        {% for unidade in materia.unidades.all %}
+          <li class="flex flex-wrap items-center gap-3 rounded-2xl border-2 border-border px-4 py-3">
+            <span class="font-black">Unidade {{ forloop.counter }} · {{ unidade.titulo }}</span>
+            <span class="flex-1 text-sm font-semibold text-muted-foreground">
+              {% for licao in unidade.licoes.all %}{{ licao.nome }}{% if not forloop.last %}, {% endif %}{% empty %}Sem lições{% endfor %}
+            </span>
+            <a href="{% url 'game:unidade-update' unidade.pk %}" class="text-xs font-black uppercase tracking-wide text-primary hover:underline">Editar</a>
+            <a href="{% url 'game:unidade-delete' unidade.pk %}" class="text-xs font-black uppercase tracking-wide text-destructive hover:underline">Excluir</a>
+          </li>
+        {% endfor %}
+      </ol>
+
+      <a href="{% url 'game:unidade-create' materia.pk %}"
+         class="mt-3 flex w-fit items-center gap-1.5 text-sm font-black text-primary hover:underline">
+        <i data-lucide="plus" class="size-4" aria-hidden="true"></i> Adicionar unidade
+      </a>
+    </li>
+  {% empty %}
+    <li class="font-semibold text-muted-foreground">Nenhuma matéria cadastrada.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

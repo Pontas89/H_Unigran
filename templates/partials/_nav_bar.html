@@ -1,0 +1,14 @@
+<!-- ================= MENU LATERAL (computador) ================= -->
+<aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col gap-6 border-r-2 border-border bg-background px-4 py-8 lg:flex">
+  <div class="px-3"><a href="{% url 'game:inicio' %}" class="text-3xl font-black tracking-tight text-primary" aria-label="Estudaí — página inicial">estudaí</a></div>
+  <nav aria-label="Navegação principal" class="flex flex-1 flex-col gap-1">
+    {% for item in menu %}
+      <a href="{% url item.url %}"{% if item.secao == secao %} aria-current="page"{% endif %} class="flex items-center gap-4 rounded-xl border-2 px-3 py-2.5 text-sm font-extrabold uppercase tracking-wide transition-colors {% if item.secao == secao %}border-primary/60 bg-accent text-accent-foreground{% else %}border-transparent text-muted-foreground hover:bg-muted{% endif %}"><i data-lucide="{{ item.icone }}" class="size-6" aria-hidden="true" stroke-width="2.4"></i>{{ item.rotulo }}</a>
+    {% endfor %}
+  </nav>
+  <button type="button" class="botao-tema flex items-center gap-3 rounded-xl border-2 border-transparent px-3 py-2.5 text-sm font-extrabold uppercase tracking-wide text-muted-foreground transition-colors hover:bg-muted" aria-label="Alternar modo escuro"><i data-lucide="sun" class="size-6 dark:hidden" aria-hidden="true"></i><i data-lucide="moon" class="hidden size-6 dark:block" aria-hidden="true"></i><span class="dark:hidden">Modo escuro</span><span class="hidden dark:inline">Modo claro</span></button>
+  <form method="post" action="{% url 'accounts:logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="flex w-full items-center gap-3 rounded-xl border-2 border-transparent px-3 py-2.5 text-sm font-extrabold uppercase tracking-wide text-muted-foreground transition-colors hover:bg-muted"><i data-lucide="log-out" class="size-6" aria-hidden="true"></i>Sair</button>
+  </form>
+</aside>

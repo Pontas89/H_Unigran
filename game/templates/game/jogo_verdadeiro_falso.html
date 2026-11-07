@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Verdadeiro ou falso — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mx-auto flex max-w-2xl flex-col gap-6">
+    <a href="{% url 'game:jogo-list' %}" class="flex w-fit items-center gap-2 text-sm font-black uppercase tracking-wide text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="size-4" aria-hidden="true"></i> Jogos</a>
+    <h1 class="text-balance text-3xl font-black tracking-tight">Verdadeiro ou falso</h1>
+    
+    <section id="vf-inicio" class="rounded-3xl bg-card p-5 card-3d flex flex-col items-center gap-4 py-10 text-center">
+      <i data-lucide="timer" class="size-14 text-primary" aria-hidden="true"></i>
+      <p class="max-w-sm text-pretty font-semibold leading-relaxed text-muted-foreground">Julgue cada afirmação o mais rápido possível. A partir de 3 acertos seguidos, cada acerto vale +2 XP de bônus.</p>
+      <button type="button" class="vf-comecar inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105">Começar</button>
+    </section>
+    <div id="vf-jogo" hidden class="flex flex-col gap-5">
+      <div class="flex items-center gap-4">
+        <div class="h-4 w-full overflow-hidden rounded-full bg-muted"><div id="vf-barra" class="h-full rounded-full bg-primary transition-[width] duration-500" style="width:100%"></div></div>
+        <span class="w-12 text-right font-black tabular-nums"><span id="vf-tempo">60</span>s</span>
+      </div>
+      <div class="flex items-center justify-between text-sm font-black"><span class="tabular-nums"><span id="vf-pontos">0</span> XP</span><span class="text-muted-foreground">Combo <span id="vf-combo">0</span></span></div>
+      <section id="vf-cartao" class="rounded-3xl bg-card p-5 card-3d flex min-h-48 flex-col items-center justify-center gap-3 text-center transition-colors" aria-live="polite">
+        <span id="vf-materia" class="rounded-full bg-muted px-3 py-1 text-xs font-black uppercase text-muted-foreground"></span>
+        <p id="vf-frase" class="text-balance text-2xl font-black leading-snug"></p>
+      </section>
+      <div class="grid grid-cols-2 gap-4">
+        <button type="button" id="vf-falso" class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-destructive text-destructive-foreground btn-3d-destructive py-5 text-base"><i data-lucide="x" class="size-5" aria-hidden="true" stroke-width=3></i> Falso</button>
+        <button type="button" id="vf-verdadeiro" class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105 py-5 text-base"><i data-lucide="check" class="size-5" aria-hidden="true" stroke-width=3></i> Verdadeiro</button>
+      </div>
+    </div>
+    <section id="vf-fim" hidden class="rounded-3xl bg-card p-5 card-3d flex flex-col items-center gap-4 py-10 text-center">
+      <p class="text-sm font-black uppercase tracking-widest text-muted-foreground">Tempo esgotado</p>
+      <p class="text-6xl font-black tabular-nums text-primary"><span id="vf-total">0</span> XP</p>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <button type="button" id="vf-resgatar" class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring bg-primary text-primary-foreground btn-3d hover:brightness-105">Resgatar XP</button>
+        <button type="button" class="vf-comecar inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring border-2 border-border bg-card text-foreground btn-3d-muted hover:bg-muted">Jogar de novo</button>
+      </div>
+    </section>
+  </div>
+
+{# Afirmações cadastradas pelo admin, lidas pelo app.js (parte 11) #}
+{{ dados_vf|json_script:"dados-vf" }}
+{% endblock %}

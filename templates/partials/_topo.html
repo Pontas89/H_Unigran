@@ -1,0 +1,14 @@
+<!-- ================= TOPO: ofensiva, XP e vidas (números vêm do banco) ================= -->
+<header class="sticky top-0 z-20 flex items-center justify-between gap-2 border-b-2 border-border bg-background/95 px-4 py-2 backdrop-blur lg:px-8">
+  <div class="flex items-center gap-2 lg:hidden">
+    <button type="button" id="menu-abrir" class="rounded-xl p-2 text-muted-foreground hover:bg-muted" aria-label="Abrir menu"><i data-lucide="menu" class="size-6" aria-hidden="true"></i></button>
+    <span class="text-2xl font-black tracking-tight text-primary">estudaí</span>
+  </div>
+  <div class="ml-auto">
+    <ul class="flex items-center sm:gap-3" aria-label="Seu status">
+      <li class="flex items-center gap-1 rounded-xl px-1.5 py-1.5 font-extrabold sm:gap-1.5 sm:px-2"><i data-lucide="flame" class="size-5 text-primary" aria-hidden="true" fill="currentColor"></i><span class="tabular-nums" id="ofensiva-total">{{ ofensiva }}</span><span class="sr-only">dias de ofensiva</span></li>
+      <li class="flex items-center gap-1 rounded-xl px-1.5 py-1.5 font-extrabold sm:gap-1.5 sm:px-2"><i data-lucide="zap" class="size-5 text-primary" aria-hidden="true" fill="currentColor"></i><span class="tabular-nums" id="xp-total" data-xp="{{ xp_total }}">{{ xp_total }}</span><span class="sr-only">XP total</span></li>
+      <li class="flex items-center gap-1 rounded-xl px-1.5 py-1.5 font-extrabold sm:gap-1.5 sm:px-2"><i data-lucide="heart" class="size-5 text-destructive" aria-hidden="true" fill="currentColor"></i><span class="tabular-nums">5</span><span class="sr-only">vidas</span></li>
+    </ul>
+  </div>
+</header>

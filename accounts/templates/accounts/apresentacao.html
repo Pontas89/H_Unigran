@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação — Estudaí</title>
+    <link rel="icon" href="{% static 'game/img/icon.svg' %}">
+    {# Visual da pasta escola_futuro (apresentacao.css) #}
+    <link rel="stylesheet" href="{% static 'accounts/css/apresentacao.css' %}">
+</head>
+<body>
+    <div class="container-apresentacao">
+        <header>
+            <h1 class="logo-titulo">estudaí</h1>
+            <p class="subtitulo">Sua plataforma de aprendizado inteligente e gamificado</p>
+        </header>
+
+        <main>
+            <!-- Cartão sobre o Projeto -->
+            <section class="card-info">
+                <h2>Sobre o Projeto</h2>
+                <p>
+                    Nossa plataforma foi desenvolvida para apoiar o aprendizado de alunos de forma autônoma e interativa,
+                    atendendo estudantes, professores e responsáveis. Inspirado na dinâmica lúdica do Duolingo, o sistema
+                    utiliza Inteligência Artificial para guiar o aprendizado sem entregar respostas prontas.
+                </p>
+            </section>
+
+            <!-- Módulos e Recursos da Plataforma -->
+            <section class="card-info">
+                <h2>Recursos e Ferramentas do Aluno</h2>
+                <ul class="lista-recursos">
+                    <li><strong>🏠 Início:</strong> Painel principal com visão geral da rotina de estudos, aulas do dia, tarefas pendentes e atalhos rápidos.</li>
+                    <li><strong>📚 Matérias:</strong> Conteúdos organizados por disciplinas com trilhas de aprendizado interativas.</li>
+                    <li><strong>🎮 Jogos:</strong> Quiz, verdadeiro ou falso, memória e linha do tempo para praticar de forma divertida.</li>
+                    <li><strong>🏆 Ranking:</strong> Classificação semanal que estimula a competição saudável e premia os alunos mais dedicados.</li>
+                    <li><strong>📅 Calendário:</strong> Agenda escolar com provas, entregas de trabalhos e lembretes.</li>
+                    <li><strong>🎓 Oportunidades:</strong> Bolsas de estudos, cursos técnicos, estágios e concursos.</li>
+                    <li><strong>🧡 Bem-Estar:</strong> Respiração guiada e contatos de apoio socioemocional.</li>
+                </ul>
+            </section>
+
+            <!-- Botões de Ação -->
+            <section class="secao-botoes">
+                <h2>Acesse a Plataforma</h2>
+                <div class="butões">
+                    <a href="{% url 'accounts:login' %}" class="btn-link">
+                        <button type="button" class="btn-entrar">Entrar</button>
+                    </a>
+                    <a href="{% url 'accounts:register' %}" class="btn-link">
+                        <button type="button" class="btn-cadastrar">Cadastrar</button>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

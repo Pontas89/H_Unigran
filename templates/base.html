@@ -1,0 +1,39 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-BR" class="bg-background">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}Estudaí — Ensino médio que vicia{% endblock %}</title>
+  <meta name="description" content="Plataforma de estudos do ensino médio com jogos, XP, ofensivas, ranking, calendário escolar, oportunidades e a Fagulha, sua IA de estudos.">
+  <link rel="icon" href="{% static 'game/img/icon.svg' %}">
+  <link rel="stylesheet" href="{% static 'game/css/estudai.css' %}">
+</head>
+{# data-url-xp: endereço que o app.js usa para salvar o XP ganho #}
+<body class="antialiased" data-url-xp="{% url 'game:ganhar-xp' %}">
+{% block layout %}
+<div class="min-h-dvh">
+  {% include "partials/_nav_bar.html" %}
+
+  <div class="lg:pl-64">
+    {% include "partials/_topo.html" %}
+
+    <main class="mx-auto w-full max-w-6xl px-4 pb-32 pt-6 lg:px-8 lg:pb-16">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  {% include "partials/_menu_celular.html" %}
+</div>
+
+{% include "partials/_fagulha.html" %}
+{% endblock %}
+
+<!-- avisos de XP -->
+<div id="avisos" class="pointer-events-none fixed inset-x-0 top-4 z-[60] flex flex-col items-center gap-2 px-4" role="status" aria-live="polite"></div>
+
+<script src="{% static 'game/js/lucide.min.js' %}"></script>
+<script src="{% static 'game/js/perguntas.js' %}"></script>
+<script src="{% static 'game/js/app.js' %}"></script>
+</body>
+</html>

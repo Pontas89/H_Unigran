@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   OPORTUNIDADES
+   A view manda: categorias (abas) e oportunidades (cards do banco).
+   Filtro por categoria e "salvar": app.js, parte 7.
+   O admin pode cadastrar, editar e excluir.
+   =====================================================================
+{% endcomment %}
+
+{% block title %}Oportunidades — Estudaí{% endblock %}
+
+{% block content %}
+
+{# ---------- Cabeçalho ---------- #}
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <h1 class="text-balance text-3xl font-black tracking-tight md:text-4xl">Oportunidades</h1>
+    <p class="mt-1 text-pretty font-semibold leading-relaxed text-muted-foreground">
+      Eventos, cursos, estágios e concursos selecionados para alunos do ensino médio.
+    </p>
+  </div>
+
+  {% if user.is_staff %}
+    <a href="{% url 'game:oportunidade-create' %}"
+       class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors bg-primary text-primary-foreground btn-3d hover:brightness-105">
+      <i data-lucide="plus" class="size-4" aria-hidden="true"></i> Nova oportunidade
+    </a>
+  {% endif %}
+</div>
+
+<div class="flex flex-col gap-6">
+
+  {# ---------- Abas de categoria (a primeira começa selecionada) ---------- #}
+  <div role="tablist" class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+    {% for categoria in categorias %}
+      <button type="button" data-categoria="{{ categoria.valor }}"
+              class="aba-op flex items-center justify-center gap-2 rounded-2xl border-2 px-4 py-3 text-sm font-black uppercase tracking-wide
+                     {% if forloop.first %}border-primary bg-primary text-primary-foreground btn-3d{% else %}border-border btn-3d-muted hover:bg-muted{% endif %}">
+        <i data-lucide="{{ categoria.icone }}" class="size-5" aria-hidden="true"></i>{{ categoria.nome }}
+      </button>
+    {% endfor %}
+  </div>
+
+  {# ---------- Cards (só os da primeira categoria começam visíveis) ---------- #}
+  <ul class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    {% for op in oportunidades %}
+      <li data-card="{{ op.categoria }}" class="flex flex-col gap-3 rounded-3xl bg-card p-5 card-3d"
+          {% if op.categoria != categorias.0.valor %}hidden{% endif %}>
+
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-xs font-black uppercase tracking-widest text-primary">{{ op.organizacao }}</p>
+            <h2 class="mt-1 text-lg font-black leading-tight">{{ op.titulo }}</h2>
+          </div>
+          <button type="button" class="salvar rounded-xl p-2 text-muted-foreground hover:bg-muted"
+                  aria-pressed="false" aria-label="Salvar {{ op.titulo }}">
+            <i data-lucide="bookmark" class="size-5" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <p class="text-pretty text-sm font-semibold leading-relaxed text-muted-foreground">{{ op.descricao }}</p>
+
+        <div class="flex flex-col gap-1 text-sm font-bold">
+          <span class="flex items-center gap-2"><i data-lucide="clock" class="size-4 text-primary" aria-hidden="true"></i> {{ op.prazo }}</span>
+          <span class="flex items-center gap-2"><i data-lucide="map-pin" class="size-4 text-primary" aria-hidden="true"></i> {{ op.local }}</span>
+        </div>
+
+        <ul class="mt-auto flex flex-wrap gap-2 pt-2">
+          {% for tag in op.lista_de_tags %}
+            <li class="rounded-full bg-muted px-3 py-1 text-xs font-black text-muted-foreground">{{ tag }}</li>
+          {% endfor %}
+        </ul>
+
+        {% if user.is_staff %}
+          <div class="flex gap-4 border-t-2 border-border pt-2">
+            <a href="{% url 'game:oportunidade-update' op.pk %}" class="text-xs font-black uppercase tracking-wide text-primary hover:underline">Editar</a>
+            <a href="{% url 'game:oportunidade-delete' op.pk %}" class="text-xs font-black uppercase tracking-wide text-destructive hover:underline">Excluir</a>
+          </div>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li class="font-semibold text-muted-foreground">Nenhuma oportunidade cadastrada.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

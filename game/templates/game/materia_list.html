@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   MATÉRIAS
+   Um card por matéria com o progresso do aluno (lições concluídas / total).
+   A view manda: progresso = [{materia, concluidas, total, porcentagem, proxima}]
+   =====================================================================
+{% endcomment %}
+
+{% block title %}Matérias — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <h1 class="text-balance text-3xl font-black tracking-tight md:text-4xl">Matérias</h1>
+    <p class="mt-1 text-pretty font-semibold leading-relaxed text-muted-foreground">
+      Trilhas do ensino médio alinhadas à BNCC e ao ENEM. Complete lições para ganhar XP.
+    </p>
+  </div>
+
+  {# Só o administrador vê o botão de gerenciar #}
+  {% if user.is_staff %}
+    <a href="{% url 'game:materia-gerenciar' %}"
+       class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors border-2 border-border bg-card text-foreground btn-3d-muted hover:bg-muted">
+      <i data-lucide="settings" class="size-4" aria-hidden="true"></i> Gerenciar matérias
+    </a>
+  {% endif %}
+</div>
+
+<ul class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+  {% for item in progresso %}
+    {% with materia=item.materia %}
+      <li>
+        <a href="{% url 'game:materia-detail' materia.slug %}"
+           class="flex h-full flex-col gap-4 rounded-3xl bg-card p-5 card-3d transition-colors hover:border-primary/60">
+
+          {# Ícone, nome e professor #}
+          <div class="flex items-center gap-4">
+            <span class="flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+              <i data-lucide="{{ materia.icone }}" class="size-7" aria-hidden="true" stroke-width="2.4"></i>
+            </span>
+            <div>
+              <h2 class="text-xl font-black leading-tight">{{ materia.nome }}</h2>
+              <p class="text-sm font-semibold text-muted-foreground">{{ materia.professor }}</p>
+            </div>
+          </div>
+
+          {# Resumo da trilha #}
+          <p class="text-sm font-semibold text-muted-foreground">
+            {{ materia.unidades.count }} unidade{{ materia.unidades.count|pluralize }} ·
+            {{ item.concluidas }}/{{ item.total }} lições ·
+            {% for unidade in materia.unidades.all %}{{ unidade.titulo }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          </p>
+
+          {# Barra de progresso #}
+          <div class="mt-auto flex items-center gap-3">
+            <div class="h-4 w-full overflow-hidden rounded-full bg-muted" role="progressbar"
+                 aria-valuenow="{{ item.porcentagem }}" aria-valuemin="0" aria-valuemax="100"
+                 aria-label="Progresso em {{ materia.nome }}">
+              <div class="relative h-full rounded-full bg-primary transition-[width] duration-500" style="width:{{ item.porcentagem }}%">
+                <span class="absolute inset-x-2 top-1 h-1 rounded-full bg-primary-foreground/30"></span>
+              </div>
+            </div>
+            <span class="text-sm font-black tabular-nums">{{ item.porcentagem }}%</span>
+          </div>
+        </a>
+      </li>
+    {% endwith %}
+  {% empty %}
+    <li class="font-semibold text-muted-foreground">Nenhuma matéria cadastrada ainda.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

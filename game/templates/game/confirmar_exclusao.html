@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% comment %} =====================================================================
+   CONFIRMAÇÃO DE EXCLUSÃO GENÉRICA DO ADMIN
+   A view manda: titulo, object (o item) e url_voltar.
+   =====================================================================
+{% endcomment %}
+
+{% block title %}{{ titulo }} — Estudaí{% endblock %}
+
+{% block content %}
+<div class="mx-auto flex max-w-2xl flex-col gap-6">
+
+  <h1 class="text-3xl font-black tracking-tight">{{ titulo }}</h1>
+
+  <form method="post" class="flex flex-col gap-4 rounded-3xl bg-card p-5 card-3d">
+    {% csrf_token %}
+
+    <p class="font-semibold leading-relaxed">
+      Tem certeza que quer excluir <strong class="font-black">“{{ object }}”</strong>?
+    </p>
+    <p class="text-sm font-semibold text-muted-foreground">
+      Essa ação não pode ser desfeita. O que depende deste item também será apagado.
+    </p>
+
+    <div class="mt-2 flex flex-col gap-3 sm:flex-row">
+      <button type="submit"
+              class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors bg-destructive text-primary-foreground hover:brightness-105">
+        <i data-lucide="trash-2" class="size-4" aria-hidden="true"></i> Excluir
+      </button>
+      <a href="{{ url_voltar }}"
+         class="inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-wide transition-colors border-2 border-border bg-card text-foreground btn-3d-muted hover:bg-muted">
+        Cancelar
+      </a>
+    </div>
+  </form>
+
+</div>
+{% endblock %}

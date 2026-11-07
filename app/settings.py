@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,14 +37,16 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',  # formata números: 1840 -> 1.840
     'accounts',
-    'game',  # Adicione o aplicativo de contas aqui
+    'game',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +64,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Campo_Grande'
 
 USE_I18N = True
 
@@ -131,4 +134,30 @@ MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
+}
+
+
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'game:inicio'
+LOGOUT_REDIRECT_URL = 'accounts:login'
+
+
+# ===================== FAGULHA (IA do Gemini) =====================
+# Coloque a chave da API do Gemini (https://aistudio.google.com/apikey) na variável
+# de ambiente GEMINI_API_KEY. NUNCA escreva a chave aqui: o GitHub bloqueia o push.
+# Sem chave, a Fagulha usa as respostas prontas do app.js.
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
+# Flash = respostas rápidas (ideal para chat ao vivo). "-latest" sempre aponta para o Flash mais novo.
+# Para ver os modelos disponíveis: uv run python manage.py gemini_modelos
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-flash-latest')
+# Usado automaticamente se o principal falhar (limite de uso, fora do ar, modelo removido).
+GEMINI_MODEL_RESERVA = os.environ.get('GEMINI_MODEL_RESERVA', 'gemini-2.5-flash')
+
+JAZZMIN_SETTINGS = {
+    'site_title': 'Estudaí Admin',
+    'site_header': 'Estudaí',
+    'site_brand': 'Estudaí',
+    'welcome_sign': 'Painel do administrador do Estudaí',
+    'copyright': 'Estudaí',
+    'show_ui_builder': True,  # botão para testar temas e cores ao vivo
 }

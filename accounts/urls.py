@@ -1,11 +1,10 @@
 from django.urls import path
-from accounts.views import CriarConta, UpdateConta, DeleteConta, ListConta
+from accounts.views import UserLoginView, UserLogoutView, UserRegisterView
 
 app_name = 'accounts'
 
 urlpatterns = [
-    path('criar/', CriarConta.as_view(), name='criar_conta'),
-    path('atualizar/<int:pk>/', UpdateConta.as_view(), name='atualizar_conta'),
-    path('deletar/<int:pk>/', DeleteConta.as_view(), name='deletar_conta'),
-    path('listar/', ListConta.as_view(), name='listar_contas'),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', UserLogoutView.as_view(), name='logout'),
+    path('register/', UserRegisterView.as_view(), name='register'),
 ]

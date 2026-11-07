@@ -1,0 +1,27 @@
+<!-- ================= MENU INFERIOR (celular) ================= -->
+<nav aria-label="Navegação inferior" class="fixed inset-x-0 bottom-0 z-30 flex justify-around border-t-2 border-border bg-background py-2 lg:hidden">
+  {% for item in menu|slice:":4" %}
+    <a href="{% url item.url %}"{% if item.secao == secao %} aria-current="page"{% endif %} class="flex flex-col items-center gap-0.5 rounded-xl border-2 px-3 py-1.5 text-[11px] font-extrabold uppercase {% if item.secao == secao %}border-primary/60 bg-accent text-accent-foreground{% else %}border-transparent text-muted-foreground{% endif %}"><i data-lucide="{{ item.icone }}" class="size-6" aria-hidden="true" stroke-width="2.4"></i>{{ item.rotulo }}</a>
+  {% endfor %}
+</nav>
+
+<!-- ================= MENU COMPLETO (celular) ================= -->
+<div id="menu-celular" hidden class="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+  <button type="button" class="menu-fechar absolute inset-0 bg-foreground/40" aria-label="Fechar menu"></button>
+  <div class="animate-pop-in absolute inset-y-0 left-0 flex w-72 flex-col gap-6 bg-background px-4 py-6">
+    <div class="flex items-center justify-between px-3">
+      <a href="{% url 'game:inicio' %}" class="text-3xl font-black tracking-tight text-primary">estudaí</a>
+      <button type="button" class="menu-fechar rounded-xl p-2 text-muted-foreground hover:bg-muted" aria-label="Fechar menu"><i data-lucide="x" class="size-6" aria-hidden="true"></i></button>
+    </div>
+    <nav aria-label="Menu completo" class="flex flex-1 flex-col gap-1">
+      {% for item in menu %}
+        <a href="{% url item.url %}"{% if item.secao == secao %} aria-current="page"{% endif %} class="flex items-center gap-4 rounded-xl border-2 px-3 py-2.5 text-sm font-extrabold uppercase tracking-wide {% if item.secao == secao %}border-primary/60 bg-accent text-accent-foreground{% else %}border-transparent text-muted-foreground{% endif %}"><i data-lucide="{{ item.icone }}" class="size-6" aria-hidden="true" stroke-width="2.4"></i>{{ item.rotulo }}</a>
+      {% endfor %}
+    </nav>
+    <button type="button" class="botao-tema flex items-center gap-3 rounded-xl border-2 border-transparent px-3 py-2.5 text-sm font-extrabold uppercase tracking-wide text-muted-foreground transition-colors hover:bg-muted" aria-label="Alternar modo escuro"><i data-lucide="sun" class="size-6 dark:hidden" aria-hidden="true"></i><i data-lucide="moon" class="hidden size-6 dark:block" aria-hidden="true"></i><span class="dark:hidden">Modo escuro</span><span class="hidden dark:inline">Modo claro</span></button>
+    <form method="post" action="{% url 'accounts:logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="flex w-full items-center gap-3 rounded-xl border-2 border-transparent px-3 py-2.5 text-sm font-extrabold uppercase tracking-wide text-muted-foreground transition-colors hover:bg-muted"><i data-lucide="log-out" class="size-6" aria-hidden="true"></i>Sair</button>
+    </form>
+  </div>
+</div>
