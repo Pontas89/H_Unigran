@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',  # Adicione o aplicativo de contas aqui
+    'accounts',
+    'game',  # Adicione o aplicativo de contas aqui
 ]
 
 MIDDLEWARE = [
