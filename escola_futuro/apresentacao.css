@@ -1,0 +1,161 @@
+/* Configurações Globais e Tipografia */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Fundo da tela em bege claro suave */
+body {
+    background-color: #FFEEDA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Container centralizado da apresentação */
+.container-apresentacao {
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 620px;
+    padding: 35px 28px;
+    border-radius: 24px;
+    border: 2px solid #FBAC68;
+    box-shadow: 0 8px 24px rgba(161, 66, 6, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* Cabeçalho */
+header {
+    text-align: center;
+}
+
+.logo-titulo {
+    color: #FF8517;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+}
+
+.subtitulo {
+    color: #A14206;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Módulos de Informação (Cards) */
+.card-info {
+    background-color: #FFFDF9;
+    border: 2px solid #FFAF68;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.card-info h2 {
+    color: #2E2E2E;
+    font-size: 18px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #FFEEDA;
+    padding-bottom: 6px;
+}
+
+.card-info p {
+    color: #4B4B4B;
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+/* Lista de Recursos com Ícones */
+.lista-recursos {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lista-recursos li {
+    color: #4B4B4B;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #FFFFFF;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #FFEEDA;
+}
+
+.lista-recursos strong {
+    color: #A14206;
+}
+
+/* Botões de Ação */
+.secao-botoes {
+    text-align: center;
+}
+
+.secao-botoes h2 {
+    color: #2E2E2E;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.butões {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-link {
+    text-decoration: none;
+    width: 100%;
+}
+
+/* Estilo Base dos Botões */
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 16px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Botão ENTRAR (Laranja 3D) */
+.btn-entrar {
+    background-color: #FF8517;
+    color: #FFFFFF;
+    box-shadow: 0 4px 0 #A14206;
+}
+
+.btn-entrar:hover {
+    background-color: #F97D14;
+}
+
+.btn-entrar:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #A14206;
+}
+
+/* Botão CADASTRAR */
+.btn-cadastrar {
+    background-color: transparent;
+    color: #A14206;
+    border: 2px solid #FFAF68;
+}
+
+.btn-cadastrar:hover {
+    background-color: #FFEEDA;
+    border-color: #FF8517;
+}
+
+.btn-cadastrar:active {
+    transform: translateY(2px);
+}
